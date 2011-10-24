@@ -38,23 +38,23 @@ class Emovere < Sinatra::Base
   # people can play with the api
   #
   get '/api/sources/' do
-    json @@categories.sources
+    json @@manager.sources
   end
 
   get '/api/images/:category' do
-    json @@categories.grade
+    json @@manager.images params[:category]
   end
   
   get '/api/category' do
-    json @@categories.available
+    json @@manager.categories
   end
   
   post '/api/category/check' do
-    json @@categories.check params[:data]
+    json @@manager.check params[:data]
   end
   
   post '/api/category/grade' do
-    json @@categories.grade params[:data]
+    json @@manager.grade params[:data]
   end
   
   #

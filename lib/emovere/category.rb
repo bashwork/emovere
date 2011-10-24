@@ -13,7 +13,7 @@ module Emovere
     # list of |indicator| words.
     #
     def initialize(category, indicator=nil)
-      @category = category
+      @category  = category
       @indicator = indicator
     end
   
@@ -28,6 +28,7 @@ module Emovere
     # Give the supplied |string| a grade for this category
     #
     def grade(string)
+      return   0 if (string == :empty)
       weight = 0
       string.split.each { |word|
           (@indicator.include? word) && weight += 1
@@ -42,6 +43,7 @@ module Emovere
   class CategoryManager
   
     @logger = Logger.new(STDOUT)
+    attr_reader :names
 
     #
     # Initializes a new collection of categories using
@@ -57,13 +59,7 @@ module Emovere
           @categories[category] = Category.new(category, indicators)
         end
       end
-    end
-  
-    #
-    # Return the currently available categories
-    #
-    def available
-      @categories.keys
+      @names = @categories.keys
     end
   
     #
@@ -72,7 +68,7 @@ module Emovere
     #
     def check(string, category)
       @categories.key?(category) &&
-      @categories[category].check(string.downcase)
+      @categories[category].check(string)
     end
   
     #
@@ -80,7 +76,7 @@ module Emovere
     #
     def check(string)
       @categories.select { |key,category|
-          category.check(string.downcase)
+          category.check(string)
       }.keys
     end
   
@@ -91,7 +87,7 @@ module Emovere
     def grade(string)
       result = {}
       @categories.each { |key,category|
-          result[key] = category.grade(string.downcase)
+          result[key] = category.grade(string)
       }
       result
     end

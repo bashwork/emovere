@@ -11,3 +11,4 @@ gem "rack"
 # production
 gem "foreman"
 gem "thin"
+#gemspec

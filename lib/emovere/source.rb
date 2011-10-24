@@ -10,6 +10,7 @@ module Emovere
   class SourceManager
   
     @logger = Logger.new(STDOUT)
+    attr_reader :names
 
     #
     # Initialize an impage finder with the specfied
@@ -18,7 +19,8 @@ module Emovere
     def initialize(sources=nil)
       @sources = sources || Hash[ImageSource.registered
           .map {|name,source| [name, source.new()] }]
-      @logger.info("initialied with sources: #{@sources.keys}")
+      @names = @sources.keys
+      @logger.info("initialied with sources: #{@names}")
     end
   
     #
@@ -27,10 +29,6 @@ module Emovere
     #
     def find
       @sources.flat_map { |name, source| source.find }
-    end
-  
-    def sources
-      @sources.keys
     end
   end
   
@@ -46,7 +44,8 @@ module Emovere
     # Register images sources to the manager
     #
     def self.inherited(klass)
-      name = klass.to_s.split('Image').first.downcase.to_sym
+      name = klass.to_s.split('Image').first.downcase
+      name = name.split('::').last.to_sym
       send :define_method, :source_name do
         name
       end
