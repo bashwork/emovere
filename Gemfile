@@ -4,12 +4,8 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "hpricot"
 
-# testing
-gem "wirble"
-gem "irb"
-
 # development
-gem "rspeck"
+#gem "rspeck"
 gem "rack"
 
 # production
