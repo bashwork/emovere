@@ -1,13 +1,16 @@
+require 'thread'
 require 'emovere/version'
 require 'emovere/source'
 require 'emovere/category'
 
 module Emovere
 
-  class Something
+  class EmovereManager
 
     def initialize(path)
       @cache      = {}
+      @thread     = nil
+      @mutex      = Mutex.new
       @sources    = SourceManager.new()
       @categories = CategoryManager.new(path)
     end
@@ -33,29 +36,51 @@ module Emovere
     end
 
     def images(category, grade=1)
-      return [] if !cache.include? category.to_sym
-      return cache[category].select { |image| image[:grade] >= grade }
+      return [] if !@cache.include? category.to_sym
+      return @cache[category.to_sym].select { |image| image[:grade] >= grade }
     end
+
+    # ------------------------------------------------------------
+    # update logic
+    # ------------------------------------------------------------
 
     #
     # Perform a background update of the image cache
     #
     def update
-      cache   = {}
-      sources = @sources.find
-      @categories.each { |key, category|
-        cache[key] = sources.flat_map { |source|
-          summary  = category.grade(source[:summary])
-          images   = source[:images].map { |image| {
-              :link   => image[:link],
-              :source => image[:source],
-              :grade  => summary + category.grade(image[:summary])
-          }}
-          images
-        }
+      return if @thread != nil
+
+      @thread = Thread.new {
+        while true do
+          refreshed = get_current_images
+          @mutex.synchronize { @cache = refreshed }
+          sleep (60 * 60 * 24)
+        end
       }
-      @cache = cache # todo lock
+    end
+
+    private
+
+    #
+    # Retrieve and parse the current days images
+    #
+    def get_current_images
+        cache   = {}
+        sources = @sources.find
+        @categories.categories.each { |key, category|
+          cache[key] = sources.flat_map { |source|
+            summary  = category.grade(source[:summary])
+            images   = source[:images].map { |image| {
+                :link   => image[:image],
+                :source => image[:source],
+                :grade  => summary + category.grade(image[:summary])
+            }}.select { |image| image[:grade] > 0}
+            images
+          }
+        }
+        cache
     end
   end
 
 end
+

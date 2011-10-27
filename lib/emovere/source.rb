@@ -9,7 +9,6 @@ module Emovere
   #
   class SourceManager
   
-    @logger = Logger.new(STDOUT)
     attr_reader :names
 
     #
@@ -17,6 +16,7 @@ module Emovere
     # |sources|.
     #
     def initialize(sources=nil)
+      @logger = Logger.new(STDOUT)
       @sources = sources || Hash[ImageSource.registered
           .map {|name,source| [name, source.new()] }]
       @names = @sources.keys

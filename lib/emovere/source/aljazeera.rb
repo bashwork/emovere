@@ -13,14 +13,14 @@ module Source
   class AlJazeeraImageSource < ImageSource
   
     @@root = "http://english.aljazeera.net"
-    @logger = Logger.new(STDOUT)
+    @@logger = Logger.new(STDOUT)
   
     #
     # Find all the possible image sources from the current days
     # picture collection.
     #
     def find
-      @logger.debug("searching in #{@@root}")
+      @@logger.debug("searching in #{@@root}")
       sources = []
   
       begin
@@ -35,7 +35,7 @@ module Source
           }
         end
       rescue Exception => ex
-        @logger.error(ex)
+        @@logger.error(ex)
       end
   
       sources
@@ -46,7 +46,7 @@ module Source
     # stopper.check.
     #
     def find_images(source)
-      @logger.debug("searching in #{source}")
+      @@logger.debug("searching in #{source}")
       images = []
   
       begin
@@ -59,7 +59,7 @@ module Source
           }
         end
       rescue Exception => ex
-        @logger.error(ex)
+        @@logger.error(ex)
       end
   
       images

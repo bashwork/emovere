@@ -8,6 +8,8 @@ module Emovere
   #
   class Category
   
+    attr_reader :category
+
     #
     # Initializes a new |category| checker given the supplied
     # list of |indicator| words.
@@ -42,14 +44,15 @@ module Emovere
   #
   class CategoryManager
   
-    @logger = Logger.new(STDOUT)
     attr_reader :names
+    attr_reader :categories
 
     #
     # Initializes a new collection of categories using
     # the indicator words at the given |path|.
     #
     def initialize(path='../../config/indicators')
+      @logger = Logger.new(STDOUT)
       @categories = {}
       Dir.entries(path).each do |file|
         unless ['.', '..'].include? file

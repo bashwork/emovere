@@ -1,9 +1,10 @@
-require 'bundler'
+#require 'bundler'
+#
+#Bundler.setup
+#Bundler.require(:runtime)
 
-Bundler.setup
-Bundler.require(:runtime)
-
-require './emovere'
+$: << "lib"
+require './lib/app'
 $stdout.sync = true
 
-run Emovere
+run EmovereApp

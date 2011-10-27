@@ -1,8 +1,9 @@
+$: << "../lib"
 require 'sinatra/base'
 require 'sinatra/contrib'
-require './category'
+require 'emovere'
 
-class Emovere < Sinatra::Base
+class EmovereApp < Sinatra::Base
   #
   # configuration
   #
@@ -13,19 +14,18 @@ class Emovere < Sinatra::Base
     set :static, true
     set :root, File.dirname(__FILE__)
   end
+
+  @@manager = Emovere::EmovereManager.new("../config/indicators")
   
   before do 
     cache_control :public, :max_age => 60
+    @@manager.update
   end
-
-  @@categories = CategoryManager.new()
 
   #
   # helpers
   #
-  # helpers Sinatra::Json
-  helpers do
-  end
+  helpers Sinatra::JSON
   
   #
   # people can play with the viewer
@@ -37,15 +37,19 @@ class Emovere < Sinatra::Base
   #
   # people can play with the api
   #
-  get '/api/sources/' do
+  get '/api/source/?' do
     json @@manager.sources
   end
 
-  get '/api/images/:category' do
+  get '/api/images/:category/?' do
     json @@manager.images params[:category]
   end
+
+  get '/api/images/:category/:grade/?' do
+    json @@manager.images(params[:category], params[:grade].to_i)
+  end
   
-  get '/api/category' do
+  get '/api/category/?' do
     json @@manager.categories
   end
   
@@ -63,5 +67,7 @@ class Emovere < Sinatra::Base
   not_found do
     redirect to('/')
   end
+
+  run! if app_file == $0
 
 end

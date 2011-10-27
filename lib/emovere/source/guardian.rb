@@ -13,32 +13,32 @@ module Source
   class GuardianImageSource < ImageSource
   
     @@root = "http://www.guardian.co.uk"
-    @logger = Logger.new(STDOUT)
+    @@logger = Logger.new(STDOUT)
   
     #
     # Find all the possible image sources from the current days
     # picture collection.
     #
     def find
-      @logger.debug("searching in #{@@root}")
+      @@logger.debug("searching in #{@@root}")
       sources = []
   
-      begin
-        doc = Hpricot(open("#{@@root}/world/world+content/gallery/rss"))
-        doc.search("//item']").each do |story|
-          summary = story.search("//description").inner_html.strip
-          source = story.search("//guid").first.inner_html.strip
-          unless source.empty?
-            sources << {
-                :link    => source,
-                :summary => summary.downcase,
-                :images  => find_images(source),
-            }
-          end
-        end
-      rescue Exception => ex
-        @logger.error(ex)
-      end
+      #begin
+      #  doc = Hpricot(open("#{@@root}/world/world+content/gallery/rss"))
+      #  doc.search("//item']").each do |story|
+      #    summary = story.search("//description").inner_html.strip
+      #    source = story.search("//guid").first.inner_html.strip
+      #    unless source.empty?
+      #      sources << {
+      #          :link    => source,
+      #          :summary => summary.downcase,
+      #          :images  => find_images(source),
+      #      }
+      #    end
+      #  end
+      #rescue Exception => ex
+      #  @@logger.error(ex)
+      #end
   
       sources
     end
@@ -48,7 +48,7 @@ module Source
     # stopper.check.
     #
     def find_images(source)
-      @logger.debug("searching in #{source}")
+      @@logger.debug("searching in #{source}")
       images = []
   
       begin
@@ -62,7 +62,7 @@ module Source
           }
         end
       rescue Exception => ex
-        @logger.error(ex)
+        @@logger.error(ex)
       end
   
       images
