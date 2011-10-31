@@ -1,0 +1,45 @@
+!!!
+%html
+  %head
+    %link{:rel => "stylesheet", :type => "text/css", :href  => "/css/bootstrap.min.css"}
+    %script{:type => "text/javascript", :src  => "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"}
+    %script{:type => "text/javascript", :src  => "/js/application.js"}
+    %title Emovere Debugger
+  %body
+    %section{:id => "navigation"}
+      %div{:class => "topbar-wrapper", :style => "z-index: 5;"}
+        %div{:class => "topbar" }
+          %div{:class => "topbar-inner"}
+            %div{:class => "container"}
+              %h3
+                %a{:href => "#"}= "Emovere|See The News"
+
+              %form{:class => "pull-right", :action => ""}
+                %input{:type => "text", :placeholder => "Search"}
+
+              %ul{:class => "nav secondary-nav"}
+                %li{:class => "dropdown"}
+                  %a{:href => "#", :class => "dropdown-toggle"}="Sources"
+                  %ul{:class => "dropdown-menu"}
+                    %li
+                      %a{:href => "#"}="Secondary link"
+                    %li
+                      %a{:href => "#"}="Something else here"
+                    %li{:class => "divider"}
+                    %li
+                      %a{:href => "#"}="Another Link"
+
+              %ul{:class => "nav secondary-nav"}
+                %li{:class => "dropdown"}
+                  %a{:href => "#", :class => "dropdown-toggle"}="Categories"
+                  %ul{:class => "dropdown-menu"}
+                    %li
+                      %a{:href => "#"}="Secondary link"
+                    %li
+                      %a{:href => "#"}="Something else here"
+                    %li{:class => "divider"}
+                    %li
+                      %a{:href => "#"}="Another Link"
+
+    %h1 Emovere Debugger
+

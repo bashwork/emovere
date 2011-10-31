@@ -1,7 +1,8 @@
 source :rubyforge
 
 gem "sinatra"
-gem "sinatra-contrib"
+#gem "sinatra-contrib"
+gem "sinatra-jsonp"
 gem "hpricot"
 
 # development
