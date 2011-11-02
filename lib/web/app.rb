@@ -20,7 +20,7 @@ class EmovereApp < Sinatra::Base
   
   before do 
     cache_control :public, :max_age => 60
-    #@@manager.update
+    @@manager.update
   end
 
   #
