@@ -4,7 +4,7 @@
 #Bundler.require(:runtime)
 
 $: << "lib"
-require './lib/app'
+require 'emovere/web'
 $stdout.sync = true
 
 run EmovereApp

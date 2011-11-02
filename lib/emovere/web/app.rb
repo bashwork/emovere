@@ -1,4 +1,3 @@
-$: << "../../lib"
 require 'sinatra/base'
 require 'sinatra/jsonp'
 require 'emovere'
@@ -9,14 +8,19 @@ class EmovereApp < Sinatra::Base
   # configuration
   #
   configure(:production, :development) do
+    set :root, File.dirname(__FILE__)
+    set :indicators, settings.root + "/config/indicators"
     set :public_folder, settings.root + "/public"
     set :views, settings.root + "/views"
     set :logging, true
     set :static, true
-    set :root, File.dirname(__FILE__)
   end
 
-  @@manager = Emovere::EmovereManager.new("../../config/indicators")
+  #
+  # Initialize our manager, I am sure there is a better way
+  # to do this.
+  #
+  @@manager = Emovere::EmovereManager.new(settings.indicators)
   
   before do 
     cache_control :public, :max_age => 60

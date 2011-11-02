@@ -1,0 +1,1 @@
+require 'emovere/web/app'
