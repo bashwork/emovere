@@ -22,8 +22,11 @@ class EmovereApp < Sinatra::Base
   #
   @@manager = Emovere::EmovereManager.new(settings.indicators)
   
+  #
+  # cache and update our manager when we get the chance
+  #
   before do 
-    cache_control :public, :max_age => 60
+    cache_control :public, :max_age => 3600
     @@manager.update
   end
 
@@ -47,7 +50,7 @@ class EmovereApp < Sinatra::Base
   end
 
   get '/api/images/:category/?' do
-    jsonp @@manager.images params[:category]
+    jsonp @@manager.images(params[:category])
   end
 
   get '/api/images/:category/:grade/?' do
@@ -59,11 +62,11 @@ class EmovereApp < Sinatra::Base
   end
   
   post '/api/category/check' do
-    jsonp @@manager.check params[:data]
+    jsonp @@manager.check(params[:data])
   end
   
   post '/api/category/grade' do
-    jsonp @@manager.grade params[:data]
+    jsonp @@manager.grade(params[:data])
   end
   
   #

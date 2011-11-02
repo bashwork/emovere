@@ -1,1 +1,54 @@
 #!/usr/bin/env ruby
+$: << "../lib"
+require 'emovere'
+require 'optparse'
+require 'ostruct'
+
+#
+# Abstracted option parsing code
+# 
+class OptionsManager
+
+  #
+  # Parse the command line |args| and
+  # return the parsed result.
+  #
+  def self.parse(args)
+    options = OpenStruct.new
+    options.config = "../lib/emovere/web/config/indicators"
+    options.logging = false
+
+    parser = OptionParser.new do |opts|
+      opts.banner = "usage: emovere [options]"
+      opts.separator ""
+      opts.separator "options:"
+    
+      # version
+      opts.on("-v", "--version", "Print the current version") do |opt|
+        require 'emovere/version'
+        puts "emovere-" + Emovere::Version
+        exit
+      end
+    
+      # logging
+      opts.on("-d", "--debug", "Turn on debugging") do |opt|
+        options.logging = true
+      end
+    
+      # indicator locations
+      opts.on("-c", "--config", "Indicators location") do |opt|
+        options.config = opt
+      end
+    end
+
+    parser.parse!(args)
+    options
+  end
+end
+
+#
+# main
+# 
+options = OptionsManager.parse(ARGV)
+manager = Emovere::EmovereManager.new(options.config)
+manager.update

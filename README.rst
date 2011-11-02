@@ -1,7 +1,5 @@
 ============================================================
-TODO
+Emovere: What does the world feel like today?
 ============================================================
 
-* caching (category)
-* rich viewer (ajaxy, yay!)
-* javascript library
+
