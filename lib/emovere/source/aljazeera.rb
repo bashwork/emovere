@@ -1,6 +1,5 @@
 require 'hpricot'
 require 'open-uri'
-require 'logger'
 require 'emovere/source'
 
 module Emovere
@@ -13,7 +12,6 @@ module Source
   class AlJazeeraImageSource < ImageSource
   
     @@root = "http://english.aljazeera.net"
-    @@logger = Logger.new(STDOUT)
   
     #
     # Find all the possible image sources from the current days
@@ -46,7 +44,7 @@ module Source
     # stopper.check.
     #
     def find_images(source)
-      @@logger.debug("searching in #{source}")
+      @@logger.debug("searching in #{@@root}#{source}")
       images = []
   
       begin

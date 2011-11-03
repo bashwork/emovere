@@ -1,6 +1,5 @@
 require 'hpricot'
 require 'open-uri'
-require 'logger'
 require 'emovere/source'
 
 module Emovere
@@ -13,7 +12,6 @@ module Source
   class ReutersImageSource < ImageSource
   
     @@root = "http://www.reuters.com"
-    @@logger = Logger.new(STDOUT)
   
     #
     # Find all the possible image sources from the current days

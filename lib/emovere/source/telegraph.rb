@@ -6,12 +6,12 @@ module Emovere
 module Source
 
   #
-  # Picture finder for the Guardian Day in Pictures
+  # Picture finder for the Telegraph Day in Pictures
   # collection
   #
-  class GuardianImageSource < ImageSource
+  class TelegraphImageSource < ImageSource
   
-    @@root = "http://www.guardian.co.uk"
+    @@root = "http://www.telegraph.co.uk"
   
     #
     # Find all the possible image sources from the current days
@@ -22,7 +22,7 @@ module Source
       sources = []
   
       begin
-        doc = Hpricot(open("#{@@root}/world/world+content/gallery/rss"))
+        doc = Hpricot(open("#{@@root}/news/picturegalleries/picturesoftheday/rss"))
         doc.search("/rss/channel/item']").each do |story|
           summary = story.search("description")
           unless summary.empty? # I don't know how this fucking happens
@@ -49,17 +49,17 @@ module Source
       @@logger.debug("searching in #{source}")
       images = []
   
-      begin
-        doc.search("media:content").each do |image|
-          images << {
-              :image   => image.attributes['url'],
-              :summary => image.search("media:description").inner_html.strip,
-              :source  => source_name,
-          }
-        end
-      rescue Exception => ex
-        @@logger.error(ex)
-      end
+      #begin
+      #  doc.search("media:content").each do |image|
+      #    images << {
+      #        :image   => image.attributes['url'],
+      #        :summary => image.search("media:description").inner_html.strip,
+      #        :source  => source_name,
+      #    }
+      #  end
+      #rescue Exception => ex
+      #  @@logger.error(ex)
+      #end
   
       images
     end

@@ -8,9 +8,9 @@ module Source
   #
   # Picture finder for the BBC Day in Pictures collection
   #
-  class BBCImageSource < ImageSource
+  class UsaTodayImageSource < ImageSource
   
-    @@root = "http://bbc.co.uk"
+    @@root = "http://www.usatoday.com"
   
     #
     # Find all the possible image sources from the current days
@@ -20,21 +20,21 @@ module Source
       @@logger.debug("searching in #{@@root}")
       sources = [] # we take all sources for the day
   
-      begin
-        doc = Hpricot(open("http://feeds.bbci.co.uk/news/in_pictures/rss.xml"))
-        doc.search("//item/guid']").each do |link|
-          source = link.inner_html.strip
-          unless source.empty?
-            sources << {
-               :link    => source,
-               :summary => :empty,
-               :images  => find_images(source),
-            }
-          end
-        end
-      rescue Exception => ex
-        @@logger.error(ex)
-      end
+      #begin
+      #  doc = Hpricot(open("http://feeds.bbci.co.uk/news/in_pictures/rss.xml"))
+      #  doc.search("//item/guid']").each do |link|
+      #    source = link.inner_html.strip
+      #    unless source.empty?
+      #      sources << {
+      #         :link    => source,
+      #         :summary => :empty,
+      #         :images  => find_images(source),
+      #      }
+      #    end
+      #  end
+      #rescue Exception => ex
+      #  @@logger.error(ex)
+      #end
   
       sources
     end

@@ -28,7 +28,19 @@ module Emovere
     # return them as a hash.
     #
     def find
+      @logger.info("searching in sources: #{@names}")
       @sources.flat_map { |name, source| source.find }
+      @logger.info("searching finished")
+    end
+
+    #
+    # find images from all the available sources and
+    # return them as a hash.
+    #
+    def find_and_save(path='.')
+      @logger.info("searching in sources: #{@names}")
+      @sources.flat_map { |name, source| source.find_and_save(path) }
+      @logger.info("searching finished")
     end
   end
   
@@ -38,7 +50,7 @@ module Emovere
   class ImageSource
   
     @@registry = {}
-    @logger = Logger.new(STDOUT)
+    @@logger = Logger.new(STDOUT)
   
     #
     # Register images sources to the manager
@@ -70,11 +82,13 @@ module Emovere
     #
     def find_and_save(path=".")
       File.directory?(path) || Dir.mkdir(path)
-      find.each do |image|
-        @logger.debug("Saving #{image[:image]}")
-        open(File.join(path, image[:image].split('/').last), "wb") { |file|
-          file.write(open(image[:image]).read)
-        }
+      find.each do |source|
+        source[:images].each do |image|
+          @@logger.debug("Saving #{image[:image]}")
+          open(File.join(path, image[:image].split('/').last), "wb") { |file|
+            file.write(open(image[:image]).read)
+          }
+        end
       end
     end
   end
