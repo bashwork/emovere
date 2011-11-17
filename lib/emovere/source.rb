@@ -30,7 +30,6 @@ module Emovere
     def find
       @logger.info("searching in sources: #{@names}")
       @sources.flat_map { |name, source| source.find }
-      @logger.info("searching finished")
     end
 
     #
@@ -40,7 +39,6 @@ module Emovere
     def find_and_save(path='.')
       @logger.info("searching in sources: #{@names}")
       @sources.flat_map { |name, source| source.find_and_save(path) }
-      @logger.info("searching finished")
     end
   end
   
