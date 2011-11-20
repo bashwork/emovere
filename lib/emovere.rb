@@ -26,21 +26,21 @@ module Emovere
       @categories.names
     end
 
-    def check(request)
+    def check_text(request)
       @categories.check request
     end
 
-    def grade(request)
+    def grade_text(request)
       @categories.grade request
     end
 
-    def source_images(source, grade=1)
+    def images_by_source(source, grade=1)
       source = source.to_sym
       return @cache.values.flat_map { |image| image }
          .select { |image| (image[:source] == source) and (image[:grade] >= grade) }
     end
 
-    def category_images(category, grade=1)
+    def images_by_category(category, grade=1)
       return [] if !@cache.include? category.to_sym
       return @cache[category.to_sym].select { |image| image[:grade] >= grade }
     end

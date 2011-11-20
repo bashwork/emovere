@@ -1,18 +1,15 @@
 !!!
 %html
   %head
-    %link{:rel => "stylesheet", :type => "text/css", :href  => "/css/bootstrap.min.css"}
-    %script{:type => "text/javascript", :src  => "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"}
-    %script{:type => "text/javascript", :src  => "/js/application.js"}
-    %script{:type => "text/javascript", :src  => "/js/bootstrap-dropdown.js"}
-    %title Emovere Debugger
+    %link{:rel => "stylesheet", :type => "text/css", :href  => "/css/screen.css"}
+    %title Emovere|See The News
   %body
     %section{:id => "navigation"}
       %div{:class => "topbar-wrapper", :style => "z-index: 5;"}
         %div{:class => "topbar" }
           %div{:class => "topbar-inner"}
             %div{:class => "container"}
-              %h3
+              %h3{:id => "titlebar"}
                 %a{:href => "#"}= "Emovere|See The News"
 
               %form{:class => "pull-right", :action => ""}
@@ -34,3 +31,7 @@
     %div{:id => "content"}
       %div{:id => "gallery", :class => "row media-grid"}
 
+    %script{:type => "text/javascript", :src  => "/js/jquery.min.js"}
+    //%script{:type => "text/javascript", :src  => "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"}
+    %script{:type => "text/javascript", :src  => "/js/bootstrap-dropdown.js"}
+    %script{:type => "text/javascript", :src  => "/js/application.js"}

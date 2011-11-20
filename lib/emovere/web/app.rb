@@ -27,7 +27,7 @@ class EmovereApp < Sinatra::Base
   #
   before do 
     cache_control :public, :max_age => 3600
-    @@manager.update
+    # @@manager.update
   end
 
   #
@@ -50,31 +50,31 @@ class EmovereApp < Sinatra::Base
   end
 
   get '/api/images/source/:source/?' do
-    jsonp @@manager.source_images(params[:source])
+    jsonp @@manager.images_by_source(params[:source])
   end
 
   get '/api/images/source/:source/:grade/?' do
-    jsonp @@manager.source_images(params[:source], params[:grade].to_i)
+    jsonp @@manager.images_by_source(params[:source], params[:grade].to_i)
   end
 
   get '/api/images/category/:category/?' do
-    jsonp @@manager.category_images(params[:category])
+    jsonp @@manager.images_by_category(params[:category])
   end
 
   get '/api/images/category/:category/:grade/?' do
-    jsonp @@manager.category_images(params[:category], params[:grade].to_i)
+    jsonp @@manager.images_by_category(params[:category], params[:grade].to_i)
   end
   
   get '/api/category/?' do
     jsonp @@manager.categories
   end
   
-  post '/api/category/check' do
-    jsonp @@manager.check(params[:data])
+  post '/api/category/check/?' do
+    jsonp @@manager.check_text(params[:data])
   end
   
-  post '/api/category/grade' do
-    jsonp @@manager.grade(params[:data])
+  post '/api/category/grade/?' do
+    jsonp @@manager.grade_text_(params[:data])
   end
   
   #
