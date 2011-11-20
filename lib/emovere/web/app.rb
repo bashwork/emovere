@@ -49,12 +49,20 @@ class EmovereApp < Sinatra::Base
     jsonp @@manager.sources
   end
 
-  get '/api/images/:category/?' do
-    jsonp @@manager.images(params[:category])
+  get '/api/images/source/:source/?' do
+    jsonp @@manager.source_images(params[:source])
   end
 
-  get '/api/images/:category/:grade/?' do
-    jsonp @@manager.images(params[:category], params[:grade].to_i)
+  get '/api/images/source/:source/:grade/?' do
+    jsonp @@manager.source_images(params[:source], params[:grade].to_i)
+  end
+
+  get '/api/images/category/:category/?' do
+    jsonp @@manager.category_images(params[:category])
+  end
+
+  get '/api/images/category/:category/:grade/?' do
+    jsonp @@manager.category_images(params[:category], params[:grade].to_i)
   end
   
   get '/api/category/?' do

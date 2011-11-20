@@ -10,7 +10,6 @@ module Emovere
     def initialize(path)
       @cache      = {}
       @thread     = nil
-      @mutex      = Mutex.new
       @sources    = SourceManager.new()
       @categories = CategoryManager.new(path)
     end
@@ -35,7 +34,13 @@ module Emovere
       @categories.grade request
     end
 
-    def images(category, grade=1)
+    def source_images(source, grade=1)
+      source = source.to_sym
+      return @cache.values.flat_map { |image| image }
+         .select { |image| (image[:source] == source) and (image[:grade] >= grade) }
+    end
+
+    def category_images(category, grade=1)
       return [] if !@cache.include? category.to_sym
       return @cache[category.to_sym].select { |image| image[:grade] >= grade }
     end
@@ -53,7 +58,7 @@ module Emovere
       @thread = Thread.new {
         while true do
           refreshed = get_current_images
-          @mutex.synchronize { @cache = refreshed }
+          @cache = refreshed # atomic assign
           sleep (60 * 60 * 24)
         end
       }
