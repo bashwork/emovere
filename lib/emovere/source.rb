@@ -30,6 +30,9 @@ module Emovere
     def find
       @logger.info("searching in sources: #{@names}")
       @sources.flat_map { |name, source| source.find }
+      #File.open("/tmp/images.yaml", "r") do |file|
+      #  return YAML::load(file)
+      #end
     end
 
     #

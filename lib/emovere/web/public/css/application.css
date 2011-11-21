@@ -1,3 +1,12 @@
+#gallery {
+    margin-top: 5em;
+}
 #gallery img {
-  width: 330px;
+  width: 280px;
+}
+
+#gallery li.image-box {
+  display:block;
+  height: 160px;
+  overflow-y:hidden;
 }

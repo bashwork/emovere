@@ -36,13 +36,18 @@ module Emovere
 
     def images_by_source(source, grade=1)
       source = source.to_sym
-      return @cache.values.flat_map { |image| image }
+      return @cache.values
+         .flat_map { |image| image }
          .select { |image| (image[:source] == source) and (image[:grade] >= grade) }
+         .uniq { |image| image[:link] }
+         .first(9)
     end
 
     def images_by_category(category, grade=1)
       return [] if !@cache.include? category.to_sym
-      return @cache[category.to_sym].select { |image| image[:grade] >= grade }
+      return @cache[category.to_sym]
+         .select { |image| image[:grade] >= grade }
+         .first(9)
     end
 
     # ------------------------------------------------------------
@@ -78,7 +83,8 @@ module Emovere
             images   = source[:images].map { |image| {
                 :link   => image[:image],
                 :source => image[:source],
-                :grade  => summary + category.grade(image[:summary])
+                :grade  => summary + category.grade(image[:summary],
+                :summary => image[:summary])
             }}.select { |image| image[:grade] > 0}
             images
           }
